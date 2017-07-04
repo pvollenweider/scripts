@@ -27,15 +27,16 @@ while (<>) {
                 my $c = 0;
                 for (my $i = 1; $i <= 12; $i++) {
                     if (@columns >= 3+$i) {
-                        my $prat = $columns[2+$i];
-                        if ($prat) {
+                        my $prat = $columns[(2*$i)+1];
+                        my $sol = $columns[(2*$i)+2];
+                        if ($prat || $sol) {
                             $c++;
                             print $day . "\t" . $stage . "\t" . $band;
                             if ($c>1) {
                                 print " (" . $c . ")";
                             }
                             print "\t" . $prat;
-                            my $sol = $columns[3+$i];
+                            my $sol = $columns[(2*$i)+2];
                             if ($sol) {
                                 print " (" . $sol . ")";
                             }
@@ -65,13 +66,14 @@ sub formatNeed {
     if ($str) {
         if ($str =~ /^\d/) {
             $str = lc $str;
-            $str =~ s/TBC//;
+            $str =~ s/TBC//g;
             $str =~ s/\s//g;
             $str =~ s/\.//g;
             $str =~ s#'##g;
             $str =~ s/^8x1$/3mx2m\@020/g;
-            $str =~ s/^1x8$/3mx2m\@020/g;
-            $str =~ s/^8x4$/2mx2m\@020/g;
+            $str =~ s/^1x8$/2mx1m\@020/g;
+            $str =~ s/^8x4$/2mx1m\@020/g;
+            $str =~ s/8x4x1/2mx1m\@020/g;
             $str =~ s/8x8x2/3mx2m\@060/g;
             $str =~ s/8x8x1/3mx2m\@020/g;
             $str =~ s/8x6x1/3mx2m\@020/g;
